@@ -1,23 +1,15 @@
 #include<stdio.h>
-#include<unistd.h>
 #include<stdlib.h>
-#include<sys/types.h>
-#include<sys/wait.h>
+#include<unistd.h>
 
-int main(int argc, char **argv){
-    pid_t pid=0;
-    pid = fork();
+int main(){
+    int pid = fork();
     if(pid==0){
-        printf("It is the child process and pid : %d\n",getpid());
+        printf("Child Process . PID = %d\n",getpid());
         exit(0);
     }
-    else if(pid>0){
-        printf("It is the parent process and pid : %d\n", getpid());
-        wait(NULL);
-    }
     else{
-        printf("Error while forking\n");
-        exit(EXIT_FAILURE);
+        printf("Parent Process. PID = %d\n",getpid());
     }
     return 0;
 }

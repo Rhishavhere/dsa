@@ -1,33 +1,21 @@
 #include<stdio.h>
-#include<unistd.h>
 #include<stdlib.h>
-#include<sys/types.h>
+#include<unistd.h>
 #include<sys/wait.h>
 
-int main(void){
-    pid_t pid=0;
+int main(){
+    int pid = fork();
     int status;
-    pid = fork();
 
     if(pid==0){
-        printf("I am the child\n");
-        execl("/bin/ls","ls","-l","/home/rhishh/",(char *)0);
-        perror("In exec(): ");
-        exit(1);
+        printf("Child Process\n");
+        exit(5);
     }
-    if(pid>0){
-        printf("I am the parent and the child : %d\n",pid);
-        pid= wait(&status);
-        printf("End of process: %d\n",pid);
+    else{
+        printf("Parent Process");
+        wait(&status);
         if(WIFEXITED(status)){
-            printf("The process ended with exit(%d)\n",WEXITSTATUS(status));
-        }
-        if(WIFSIGNALED(status)){
-            printf("The process ended will kill - %d\n",WTERMSIG(status));
+            printf("Child Exited with status : %d\n", WEXITSTATUS(status));
         }
     }
-    if(pid<0){
-        perror("In fork()");
-    }
-    return 0;
 }
